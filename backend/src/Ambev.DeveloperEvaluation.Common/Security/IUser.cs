@@ -22,5 +22,11 @@
         /// </summary>
         /// <returns>O papel do usuário como uma string.</returns>
         public string Role { get; }
+
+        /// <summary>
+        /// Obtém o email do usuário.
+        /// </summary>
+        /// <returns>O email do usuário.</returns>
+        public string Email { get; }
     }
 }

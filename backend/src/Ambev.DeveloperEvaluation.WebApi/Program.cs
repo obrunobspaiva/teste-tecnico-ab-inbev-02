@@ -30,6 +30,18 @@ public class Program
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
             builder.AddDefaultLogging();
 
+            // Add CORS configuration
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowFrontend", builder =>
+                {
+                    builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+            });
+
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
 
@@ -42,6 +54,8 @@ public class Program
                     b => b.MigrationsAssembly("Ambev.DeveloperEvaluation.ORM")
                 )
             );
+
+            builder.Services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
 
             builder.Services.AddJwtAuthentication(builder.Configuration);
 
@@ -59,22 +73,8 @@ public class Program
 
             builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
-            // Configurar Data Protection sem DPAPI (mais seguro e multiplataforma)
             builder.Services.AddDataProtection()
                 .PersistKeysToFileSystem(new DirectoryInfo(@"C:\Users\Asus\AppData\Local\ASP.NET\DataProtection-Keys"));
-
-            var keyFilePath = @"C:\Users\Asus\AppData\Local\ASP.NET\DataProtection-Keys\jwt-secret.key";
-
-            // Se o arquivo não existir, cria uma chave aleatória segura
-            if (!File.Exists(keyFilePath))
-            {
-                var newKey = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32)); // Chave de 256 bits
-                File.WriteAllText(keyFilePath, newKey);
-            }
-
-            // Lê a chave armazenada
-            var secretKey = File.ReadAllText(keyFilePath);
-            var key = Encoding.ASCII.GetBytes(secretKey);
 
             builder.Services.AddAuthorization();
             builder.Services.AddHealthChecks();
@@ -90,12 +90,6 @@ public class Program
 
             var app = builder.Build();
 
-            app.MapHealthChecks("/health");
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.UseMiddleware<ValidationExceptionMiddleware>();
-
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -103,12 +97,15 @@ public class Program
             }
 
             app.UseHttpsRedirection();
-
+            
+            app.UseRouting();
+            app.UseCors("AllowFrontend");
             app.UseAuthentication();
             app.UseAuthorization();
-
+            
+            app.UseMiddleware<ValidationExceptionMiddleware>();
             app.UseBasicHealthChecks();
-
+            app.MapHealthChecks("/health");
             app.MapControllers();
 
             app.Run();
