@@ -7,6 +7,7 @@ using Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
 using Ambev.DeveloperEvaluation.Application.Sales.GetSale;
 using Ambev.DeveloperEvaluation.Application.Sales.UpdateSale;
 using Ambev.DeveloperEvaluation.Application.Sales.DeleteSale;
+using Ambev.DeveloperEvaluation.Application.Sales.Reports;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
 {
@@ -104,5 +105,21 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
             return Ok(result);
         }
 
+        [HttpGet("reports")]
+        public async Task<ActionResult<SalesReportResult>> GetSalesReport(
+        [FromQuery] DateTime startDate,
+        [FromQuery] DateTime endDate,
+        [FromQuery] string reportType = "daily") // "daily", "weekly", "monthly"
+        {
+            var query = new GetSalesReportQuery
+            {
+                StartDate = startDate,
+                EndDate = endDate,
+                ReportType = reportType
+            };
+
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
     }
 }
