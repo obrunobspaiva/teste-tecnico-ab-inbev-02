@@ -50,5 +50,30 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task<List<Sale>> GetFilteredSalesAsync(string? customer, DateTime? startDate, DateTime? endDate, int page, int pageSize, string sortOrder)
+        {
+            IQueryable<Sale> query = _context.Sales.Include(s => s.Items);
+
+            if (!string.IsNullOrEmpty(customer))
+            {
+                query = query.Where(s => s.Customer.Contains(customer));
+            }
+
+            if (startDate.HasValue)
+            {
+                query = query.Where(s => s.SaleDate >= startDate.Value);
+            }
+
+            if (endDate.HasValue)
+            {
+                query = query.Where(s => s.SaleDate <= endDate.Value);
+            }
+
+            query = sortOrder.ToLower() == "asc" ? query.OrderBy(s => s.SaleDate) : query.OrderByDescending(s => s.SaleDate);
+
+            return await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+        }
+
     }
 }
