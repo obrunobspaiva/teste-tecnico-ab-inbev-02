@@ -5,8 +5,8 @@ namespace Ambev.DeveloperEvaluation.Domain.Specifications;
 
 public class ActiveUserSpecification : ISpecification<User>
 {
-    public bool IsSatisfiedBy(User user)
+    public bool IsSatisfiedBy(User? user)
     {
-        return user.Status == UserStatus.Active;
+        return user?.Status == UserStatus.Active;
     }
 }

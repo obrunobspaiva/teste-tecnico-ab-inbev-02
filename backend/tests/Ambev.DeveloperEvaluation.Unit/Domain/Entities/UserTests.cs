@@ -1,7 +1,8 @@
+using System;
+using Xunit;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Enums;
 using Ambev.DeveloperEvaluation.Unit.Domain.Entities.TestData;
-using Xunit;
 
 namespace Ambev.DeveloperEvaluation.Unit.Domain.Entities;
 
@@ -85,5 +86,67 @@ public class UserTests
         // Assert
         Assert.False(result.IsValid);
         Assert.NotEmpty(result.Errors);
+    }
+
+    [Fact]
+    public void Test_User_Creation_Success()
+    {
+        // Arrange & Act
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Username = "testuser",
+            Email = "test@example.com",
+            Password = "Test@123",
+            Phone = "+5511999999999",
+            Status = UserStatus.Active,
+            Role = UserRole.Customer
+        };
+
+        // Assert
+        Assert.NotNull(user);
+        Assert.NotEqual(Guid.Empty, user.Id);
+        Assert.Equal("testuser", user.Username);
+        Assert.Equal("test@example.com", user.Email);
+        Assert.Equal("+5511999999999", user.Phone);
+        Assert.Equal(UserStatus.Active, user.Status);
+        Assert.Equal(UserRole.Customer, user.Role);
+    }
+
+    [Fact]
+    public void Test_User_DefaultValues()
+    {
+        // Arrange & Act
+        var user = new User();
+
+        // Assert
+        Assert.Equal(UserStatus.Unknown, user.Status);
+        Assert.Equal(UserRole.None, user.Role);
+    }
+
+    [Fact]
+    public void Test_User_StatusChange()
+    {
+        // Arrange
+        var user = new User { Status = UserStatus.Active };
+
+        // Act
+        user.Status = UserStatus.Suspended;
+
+        // Assert
+        Assert.Equal(UserStatus.Suspended, user.Status);
+    }
+
+    [Fact]
+    public void Test_User_RoleChange()
+    {
+        // Arrange
+        var user = new User { Role = UserRole.Customer };
+
+        // Act
+        user.Role = UserRole.Admin;
+
+        // Assert
+        Assert.Equal(UserRole.Admin, user.Role);
     }
 }
