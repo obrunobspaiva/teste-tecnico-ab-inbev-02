@@ -80,5 +80,29 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
             await _mediator.Send(command);
             return NoContent();
         }
+
+        [HttpGet("filtered")]
+        public async Task<ActionResult<List<GetSaleResult>>> GetSalesWithFilters(
+        [FromQuery] string? customer,
+        [FromQuery] DateTime? startDate,
+        [FromQuery] DateTime? endDate,
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 10,
+        [FromQuery] string sortOrder = "desc")
+        {
+            var query = new GetSalesWithFiltersQuery
+            {
+                Customer = customer,
+                StartDate = startDate,
+                EndDate = endDate,
+                Page = page,
+                PageSize = pageSize,
+                SortOrder = sortOrder
+            };
+
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
+
     }
 }
