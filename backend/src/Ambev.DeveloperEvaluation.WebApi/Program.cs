@@ -81,6 +81,13 @@ public class Program
             builder.Services.AddAutoMapper(typeof(AuthenticateUserMapping));
             builder.Services.AddAutoMapper(typeof(AuthenticateUserProfile));
 
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Console()
+                .WriteTo.File("logs/api_log.txt", rollingInterval: RollingInterval.Day)
+                .CreateLogger();
+
+            builder.Host.UseSerilog();
+
             var app = builder.Build();
 
             app.MapHealthChecks("/health");
