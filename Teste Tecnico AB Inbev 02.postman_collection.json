@@ -1,0 +1,542 @@
+{
+	"info": {
+		"_postman_id": "15a5ca70-f7c4-4130-9ab5-7cb2aab44bd0",
+		"name": "Teste Tecnico AB Inbev 02",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41740634"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "AuthenticateUser",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"usuario@email.com\",\r\n    \"password\": \"novaSenha123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri_base_webapi}}/auth",
+							"host": [
+								"{{uri_base_webapi}}"
+							],
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "sales",
+			"item": [
+				{
+					"name": "Reports",
+					"item": [
+						{
+							"name": "Daily",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{uri_base_webapi}}/sales/reports?startDate=2025-02-25&endDate=2025-02-26&reportType=daily",
+									"host": [
+										"{{uri_base_webapi}}"
+									],
+									"path": [
+										"sales",
+										"reports"
+									],
+									"query": [
+										{
+											"key": "startDate",
+											"value": "2025-02-25"
+										},
+										{
+											"key": "endDate",
+											"value": "2025-02-26"
+										},
+										{
+											"key": "reportType",
+											"value": "daily"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Weekly",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{uri_base_webapi}}/sales/reports?startDate=2025-02-22&endDate=2025-02-28&reportType=weekly",
+									"host": [
+										"{{uri_base_webapi}}"
+									],
+									"path": [
+										"sales",
+										"reports"
+									],
+									"query": [
+										{
+											"key": "startDate",
+											"value": "2025-02-22"
+										},
+										{
+											"key": "endDate",
+											"value": "2025-02-28"
+										},
+										{
+											"key": "reportType",
+											"value": "weekly"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Monthly",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{uri_base_webapi}}/sales/reports?startDate=2025-02-01&endDate=2025-02-26&reportType=monthly",
+									"host": [
+										"{{uri_base_webapi}}"
+									],
+									"path": [
+										"sales",
+										"reports"
+									],
+									"query": [
+										{
+											"key": "startDate",
+											"value": "2025-02-01"
+										},
+										{
+											"key": "endDate",
+											"value": "2025-02-26"
+										},
+										{
+											"key": "reportType",
+											"value": "monthly"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "GetSalesWithFilters",
+					"item": [
+						{
+							"name": "Page",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{uri_base_webapi}}/sales/filtered?page=1&pageSize=5",
+									"host": [
+										"{{uri_base_webapi}}"
+									],
+									"path": [
+										"sales",
+										"filtered"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "pageSize",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Customer",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{uri_base_webapi}}/sales/filtered?customer=João Silva",
+									"host": [
+										"{{uri_base_webapi}}"
+									],
+									"path": [
+										"sales",
+										"filtered"
+									],
+									"query": [
+										{
+											"key": "customer",
+											"value": "João Silva"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "StartDate",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{uri_base_webapi}}/sales/filtered?startDate=2024-01-01&endDate=2024-02-01",
+									"host": [
+										"{{uri_base_webapi}}"
+									],
+									"path": [
+										"sales",
+										"filtered"
+									],
+									"query": [
+										{
+											"key": "startDate",
+											"value": "2024-01-01"
+										},
+										{
+											"key": "endDate",
+											"value": "2024-02-01"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SortOrder",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{uri_base_webapi}}/sales/filtered?sortOrder=asc",
+									"host": [
+										"{{uri_base_webapi}}"
+									],
+									"path": [
+										"sales",
+										"filtered"
+									],
+									"query": [
+										{
+											"key": "sortOrder",
+											"value": "asc"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "CreateSale",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"saleDate\": \"2025-02-25T10:00:00\",\r\n    \"customer\": \"João Silva\",\r\n    \"totalValue\": 200.00,\r\n    \"storeBranch\": \"Loja Central\",\r\n    \"items\": [\r\n        {\r\n            \"product\": \"Produto A\",\r\n            \"quantity\": 5,\r\n            \"unitPrice\": 40.00,\r\n            \"discount\": 10.00\r\n        },\r\n        {\r\n            \"product\": \"Produto B\",\r\n            \"quantity\": 2,\r\n            \"unitPrice\": 30.00,\r\n            \"discount\": 0.00\r\n        }\r\n    ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri_base_webapi}}/sales",
+							"host": [
+								"{{uri_base_webapi}}"
+							],
+							"path": [
+								"sales"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetSaleById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri_base_webapi}}/sales/01954089-e5d5-74b5-80a3-2edfd5117031",
+							"host": [
+								"{{uri_base_webapi}}"
+							],
+							"path": [
+								"sales",
+								"01954089-e5d5-74b5-80a3-2edfd5117031"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalido",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri_base_webapi}}/invalido",
+							"host": [
+								"{{uri_base_webapi}}"
+							],
+							"path": [
+								"invalido"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"01954089-e5d5-74b5-80a3-2edfd5117031\",\r\n    \"customer\": \"Maria Souza\",\r\n    \"totalValue\": 180.00,\r\n    \"storeBranch\": \"Loja Sul\",\r\n    \"items\": [\r\n        {\r\n            \"product\": \"Produto A\",\r\n            \"quantity\": 4,\r\n            \"unitPrice\": 45.00,\r\n            \"discount\": 5.00\r\n        }\r\n    ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri_base_webapi}}/sales/01954089-e5d5-74b5-80a3-2edfd5117031",
+							"host": [
+								"{{uri_base_webapi}}"
+							],
+							"path": [
+								"sales",
+								"01954089-e5d5-74b5-80a3-2edfd5117031"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"01954089-e5d5-74b5-80a3-2edfd5117031\",\r\n    \"customer\": \"Maria Souza\",\r\n    \"totalValue\": 180.00,\r\n    \"storeBranch\": \"Loja Sul\",\r\n    \"items\": [\r\n        {\r\n            \"product\": \"Produto A\",\r\n            \"quantity\": 4,\r\n            \"unitPrice\": 45.00,\r\n            \"discount\": 5.00\r\n        }\r\n    ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri_base_webapi}}/sales/01954089-e5d5-74b5-80a3-2edfd5117031",
+							"host": [
+								"{{uri_base_webapi}}"
+							],
+							"path": [
+								"sales",
+								"01954089-e5d5-74b5-80a3-2edfd5117031"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllSales",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri_base_webapi}}/sales",
+							"host": [
+								"{{uri_base_webapi}}"
+							],
+							"path": [
+								"sales"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url_ab",
+			"value": "http://localhost:5086/api",
+			"type": "default"
+		},
+		{
+			"key": "uri_base_webapi",
+			"value": "http://localhost:5119/api",
+			"type": "default"
+		},
+		{
+			"key": "token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI1NTBlODQwMC1lMjliLTQxZDQtYTcxNi00NDY2NTU0NDAwMDAiLCJ1bmlxdWVfbmFtZSI6IlVzdWFyaW8gVGVzdGUiLCJyb2xlIjoiQ3VzdG9tZXIiLCJuYmYiOjE3NDA2MDEyODIsImV4cCI6MTc0MDYzMDA4MiwiaWF0IjoxNzQwNjAxMjgyfQ.1tkVV0rWrKAuUXuNSwG9oRd7zQ0fCFhZKMUAMWkQPEk",
+			"type": "default"
+		}
+	]
+}
