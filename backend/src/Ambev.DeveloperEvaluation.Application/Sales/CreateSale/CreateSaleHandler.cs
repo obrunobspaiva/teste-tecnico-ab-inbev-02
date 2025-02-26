@@ -23,7 +23,7 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
         {
             var sale = new Sale
             {
-                SaleDate = request.SaleDate,
+                SaleDate = DateTime.SpecifyKind(request.SaleDate, DateTimeKind.Utc),
                 Customer = request.Customer,
                 TotalValue = request.TotalValue,
                 StoreBranch = request.StoreBranch,
