@@ -2,13 +2,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 
 namespace Ambev.DeveloperEvaluation.Common.Security;
 
-/// <summary>
-/// Implementation of JWT (JSON Web Token) generator.
-/// </summary>
 public class JwtTokenGenerator : IJwtTokenGenerator
 {
     private readonly IConfiguration _configuration;
@@ -39,25 +35,36 @@ public class JwtTokenGenerator : IJwtTokenGenerator
     public string GenerateToken(IUser user)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(_configuration["Jwt:SecretKey"]);
+        var securityKey = JwtKeyProvider.GetSecurityKey();
+        var now = DateTime.UtcNow;
+        var expires = now.AddHours(8);
 
-        var claims = new[]
-        {
-           new Claim(ClaimTypes.NameIdentifier, user.Id),
-           new Claim(ClaimTypes.Name, user.Username),
-           new Claim(ClaimTypes.Role, user.Role)
-       };
+        Console.WriteLine($"Token creation time (UTC): {now}");
+        Console.WriteLine($"Token expiration time (UTC): {expires}");
 
-        var tokenDescriptor = new SecurityTokenDescriptor
-        {
-            Subject = new ClaimsIdentity(claims),
-            Expires = DateTime.UtcNow.AddHours(8),
-            SigningCredentials = new SigningCredentials(
-                new SymmetricSecurityKey(key),
-                SecurityAlgorithms.HmacSha256Signature)
-        };
+        var signingCredentials = new SigningCredentials(
+            securityKey,
+            SecurityAlgorithms.HmacSha256Signature
+        );
 
-        var token = tokenHandler.CreateToken(tokenDescriptor);
-        return tokenHandler.WriteToken(token);
+        var header = new JwtHeader(signingCredentials);
+        header.Add("kid", "1");
+
+        var token = new JwtSecurityToken(
+            issuer: null,
+            audience: null,
+            claims: new[]
+            {
+                new Claim(ClaimTypes.Name, user.Email),
+                new Claim(ClaimTypes.Role, user.Role)
+            },
+            notBefore: now,
+            expires: expires,
+            signingCredentials: signingCredentials
+        );
+
+        var tokenString = tokenHandler.WriteToken(token);
+        Console.WriteLine($"Generated token: {tokenString}");
+        return tokenString;
     }
 }
